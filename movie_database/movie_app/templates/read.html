@@ -45,16 +45,25 @@
     <div class="collapse navbar-collapse" id="navbarNav">
       <ul class="navbar-nav mr-auto">
         <li class="nav-item">
+          {% if user.is_superuser %}
           <a class="nav-link" href="{% url 'create_movie' %}">Create</a>
+          {% endif %}
+          
         </li>
         <li class="nav-item active">
           <a class="nav-link" href="{% url 'read_movies' %}">Read</a>
         </li>
         <li class="nav-item">
+          {% if user.is_superuser %}
           <a class="nav-link" href="{% url 'update_movie_record' %}">Update</a>
+          {% endif %}
+          
         </li>
         <li class="nav-item">
+          {% if user.is_superuser %}
           <a class="nav-link" href="{% url 'delete_movie' %}">Delete</a>
+          {% endif %}
+          
         </li>
       </ul>
       <ul class="navbar-nav">
@@ -100,7 +109,9 @@
                   <th><a href="?sort=release_date">Release Date</a></th>
                   <th><a href="?sort=runtime">Runtime</a></th>
                   <th><a href="?sort=popularity">Popularity</a></th>
+                  {% if user.is_superuser %}
                   <th>Update Column</th>
+                  {% endif %}
                 </tr>
               </thead>
             
