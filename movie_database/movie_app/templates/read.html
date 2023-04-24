@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Read Movie</title>
+
+  <style>
+    table {
+        border-collapse: collapse;
+        margin-bottom: 20px;
+    }
+    th, td {
+        padding: 10px;
+        border: 1px solid black;
+    }
+    </style>
+
+
+    <script>
+        function showTable(tableId) {
+            // Hide all tables except the one with the given ID
+            var tables = document.getElementsByTagName("table");
+            for (var i = 0; i < tables.length; i++) {
+                if (tables[i].id === tableId) {
+                    tables[i].style.display = "table";
+                } else {
+                    tables[i].style.display = "none";
+                }
+            }
+        }
+    </script>
+
+
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+
+
+</head>
+<body>
+
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <a class="navbar-brand" href="{% url 'read_movies' %}">Movie Database</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav mr-auto">
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'create_movie' %}">Create</a>
+        </li>
+        <li class="nav-item active">
+          <a class="nav-link" href="{% url 'read_movies' %}">Read</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'update_movie_record' %}">Update</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'delete_movie' %}">Delete</a>
+        </li>
+      </ul>
+      <ul class="navbar-nav">
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'logout' %}">Log Out</a>
+        </li>
+      </ul>
+    </div>
+  </nav>
+  
+
+    </br>
+
+    <div class="tablebuttons" style="width:1000px; margin:0 auto;">
+        
+        <button onclick="showTable('movieTable')">Movie Table</button>
+        <button onclick="showTable('genreMovieTable')">Genre Movie Table</button>
+    
+    </div>
+    
+
+
+
+
+      {% block movie_content %}
+      <div class="container mt-5">
+        <h1 style="align-content: center; align-self: center;">Read Movie</h1>
+
+
+        <table id="movieTable" class="table">
+
+
+            
+
+
+
+            <thead>
+                <tr>
+                  <th><a href="?sort=movie_id">ID</a></th>
+                  <th><a href="?sort=title&order={{ order_qs }}">Title</a></th>
+                  <th><a href="?sort=budget">Budget</a></th>
+                  <th><a href="?sort=revenue">Revenue</a></th>
+                  <th><a href="?sort=release_date">Release Date</a></th>
+                  <th><a href="?sort=runtime">Runtime</a></th>
+                  <th><a href="?sort=popularity">Popularity</a></th>
+                  <th>Update Column</th>
+                </tr>
+              </thead>
+            
+            
+
+
+            
+
+
+
+            <tbody>
+              {% for movie in movie_data %}
+                <tr>
+                  <td>{{ movie.movie_id }}</td>
+                  <td>{{ movie.title }}</td>
+                  <td>{{ movie.budget }}</td>
+                  <td>{{ movie.revenue }}</td>
+                  <td>{{ movie.release_date }}</td>
+                  <td>{{ movie.runtime }}</td>
+                  <td>{{ movie.popularity }}</td>
+                  {% if user.is_superuser %}
+                  <td><a class="btn" href="{% url 'update_movie' movie.movie_id  %}">Update</a></td>
+                  {% endif %}
+                </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+        {% endblock %}
+
+
+      <!-- <div class="container mt-5">
+        <h1>Read Movie</h1>
+        <table id="movieTable" class="table">
+          <thead>
+            <tr>
+              <th onclick="sortTable(0)">ID</th>
+              <th onclick="sortTable(1)">Title</th>
+              <th onclick="sortTable(2)">Budget</th>
+              <th onclick="sortTable(3)">Revenue</th>
+              <th onclick="sortTable(4)">Release Date</th>
+              <th onclick="sortTable(5)">Runtime</th>
+              <th onclick="sortTable(6)">Popularity</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>1</td>
+              <td>The Shawshank Redemption</td>
+              <td>25000000</td>
+              <td>28341469</td>
+              <td>1994-09-10</td>
+              <td>142</td>
+              <td>51.645440</td>
+            </tr>
+            <tr>
+              <td>2</td>
+              <td>The Godfather</td>
+              <td>6000000</td>
+              <td>245066411</td>
+              <td>1972-03-14</td>
+              <td>175</td>
+              <td>41.109264</td>
+            </tr>
+            <tr>
+              <td>3</td>
+              <td>The Dark Knight</td>
+              <td>185000000</td>
+              <td>1004558444</td>
+              <td>2008-07-16</td>
+              <td>152</td>
+              <td>123.167259</td>
+            </tr>
+            <tr>
+              <td>4</td>
+              <td>The Godfather: Part II</td>
+              <td>13000000</td>
+              <td>48000000</td>
+              <td>1974-12-20</td>
+              <td>202</td>
+              <td>30.477371</td>
+            </tr>
+            <tr>
+              <td>5</td>
+              <td>The Lord of the Rings: The Return of the King</td>
+              <td>94000000</td>
+              <td>1118888979</td>
+              <td>2003-12-01</td>
+              <td>201</td>
+              <td>56.691471</td>
+            </tr>
+          </tbody>
+        </table>
+      </div> -->
+
+
+      
+      {% block genre_movie_content %}
+      <div class="container mt-5">
+        <table id="genreMovieTable">
+            <thead>
+                <tr>
+                    <th>PK</th>
+                    <th>Genre ID</th>
+                    <th>Genre Name</th>
+                    <th>Movie ID</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for genre_movie in genre_data %}
+                <tr>
+                    <td>{{ genre_movie.id }}</td>
+                    <td>{{ genre_movie.genre_ref_id }}</td>
+                    <td>{{ genre_movie.genre_name }}</td>
+                    <td>{{ genre_movie.movie_ref1_id }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+      </div>
+      {% endblock %}
+
+
+
+      <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+      <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+      {% load static %}
+        <link rel="stylesheet" type="text/css" href="{% static 'css/styles.css' %}">
+
+
+
+      <!-- <script>
+        function sortTable(n) {
+            var table, rows, switching, i, x, y, shouldSwitch, dir, switchcount = 0;
+            table = document.getElementById("movieTable");
+            switching = true;
+            dir = "asc"; // Set the sorting direction to ascending
+
+            while (switching) {
+                switching = false;
+                rows = table.rows;
+
+
+                for (i = 1; i < (rows.length - 1); i++) {
+                    shouldSwitch = false;
+                    x = rows[i].getElementsByTagName("td")[n];
+                    y = rows[i + 1].getElementsByTagName("td")[n];
+                    if (dir == "asc") {
+                        if (x.innerHTML.toLowerCase() > y.innerHTML.toLowerCase()) {
+                        shouldSwitch = true;
+                        break;
+                        }
+                    } else if (dir == "desc") {
+                        if (x.innerHTML.toLowerCase() < y.innerHTML.toLowerCase()) {
+                        shouldSwitch = true;
+                        break;
+                        }
+                    }
+                }
+
+
+                if (shouldSwitch) {
+                rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
+                switching = true;
+                switchcount ++;
+                } else {
+                    if (switchcount == 0 && dir == "asc") {
+                        dir = "desc";
+                        switching = true;
+                    }
+                }
+            }
+        }
+
+
+  </script> -->
+</body>
+</html>

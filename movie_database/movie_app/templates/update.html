@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Update Movie</title>
+  
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+
+  <style>
+    table {
+        border-collapse: collapse;
+        margin-bottom: 20px;
+    }
+    th, td {
+        padding: 10px;
+        border: 1px solid black;
+    }
+  </style>
+</head>
+
+
+<body>
+
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <a class="navbar-brand" href="index2.html">Movie Database</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav mr-auto">
+        <li class="nav-item">
+            <a class="nav-link" href="{% url 'create_movie' %}">Create</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'read_movies' %}">Read</a>
+          </li>
+          <li class="nav-item active">
+            <a class="nav-link" href="{% url 'update_movie_record' %}">Update</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'delete_movie' %}">Delete</a>
+          </li>
+        </ul>
+        <ul class="navbar-nav">
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'logout' %}">Log Out</a>
+          </li>
+      </ul>
+    </div>
+  </nav>
+
+  <div class="container mt-5">
+    <h1>Update Movie</h1>
+    <form method="POST" action="{% url 'update_movie_record' %}">
+        {% csrf_token %}
+        <input type="hidden" name="movie_id" value="{{ movie.movie_id }}">
+        <label for="title">Title:</label>
+        <input type="text" id="title" name="title" value="{{ movie.title }}"><br>
+        <label for="budget">Budget:</label>
+        <input type="text" id="budget" name="budget" value="{{ movie.budget }}"><br>
+        <label for="revenue">Revenue:</label>
+        <input type="text" id="revenue" name="revenue" value="{{ movie.revenue }}"><br>
+        <label for="release_date">Release Date:</label>
+        <input type="text" id="release_date" name="release_date" value="{{ movie.release_date }}"><br>
+        <label for="runtime">Runtime:</label>
+        <input type="text" id="runtime" name="runtime" value="{{ movie.runtime }}"><br>
+        <label for="popularity">Popularity:</label>
+        <input type="text" id="popularity" name="popularity" value="{{ movie.popularity }}"><br>
+        <input type="submit" value="Update">
+    </form>
+    </div>
+</body>
+</html>
